@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { TurnstileWidget } from "@/components/forms/TurnstileWidget";
+import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils/cn";
 
 type SubmitState =
@@ -90,13 +91,15 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
     return (
       <section id={content.anchorId || "inquiry"} className="bg-[#F5FBFF] py-16 sm:py-20 lg:py-28">
         <Container className="max-w-2xl">
-          <div className="rounded-card border border-green-200 bg-white p-8 text-center shadow-soft" role="status" aria-live="polite">
-            <CheckCircle2 className="mx-auto mb-4 text-green-600" size={40} aria-hidden="true" />
-            <p className="font-body text-base text-ifood-black">{content.successMessage}</p>
-            <p className="mt-3 font-display text-sm font-semibold text-ifood-darkBlue">
-              Reference number: {submitState.referenceNumber}
-            </p>
-          </div>
+          <Reveal variant="card">
+            <div className="rounded-card border border-green-200 bg-white p-8 text-center shadow-soft" role="status" aria-live="polite">
+              <CheckCircle2 className="mx-auto mb-4 animate-card-in text-green-600 [animation-delay:100ms]" size={40} aria-hidden="true" />
+              <p className="font-body text-base text-ifood-black">{content.successMessage}</p>
+              <p className="mt-3 font-display text-sm font-semibold text-ifood-darkBlue">
+                Reference number: {submitState.referenceNumber}
+              </p>
+            </div>
+          </Reveal>
         </Container>
       </section>
     );
@@ -105,23 +108,26 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
   return (
     <section id={content.anchorId || "inquiry"} className="bg-[#F5FBFF] py-16 sm:py-20 lg:py-28">
       <Container className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
-          {content.heading ? (
-            <h2 className="font-display text-[clamp(1.75rem,1.4rem+1.6vw,3rem)] font-bold leading-tight text-ifood-darkBlue">
-              {content.heading}
-            </h2>
-          ) : null}
-          <p className="mt-4 font-body text-base leading-relaxed text-ifood-gray">{content.copy}</p>
-          <ul className="mt-6 space-y-2">
-            {content.reassurancePoints.map((point) => (
-              <li key={point} className="flex items-start gap-2 font-body text-sm text-ifood-black">
-                <CheckCircle2 className="mt-0.5 shrink-0 text-ifood-mediumBlue" size={18} aria-hidden="true" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Reveal>
+          <div>
+            {content.heading ? (
+              <h2 className="font-display text-[clamp(1.75rem,1.4rem+1.6vw,3rem)] font-bold leading-tight text-ifood-darkBlue">
+                {content.heading}
+              </h2>
+            ) : null}
+            <p className="mt-4 font-body text-base leading-relaxed text-ifood-gray">{content.copy}</p>
+            <ul className="mt-6 space-y-2">
+              {content.reassurancePoints.map((point) => (
+                <li key={point} className="flex items-start gap-2 font-body text-sm text-ifood-black">
+                  <CheckCircle2 className="mt-0.5 shrink-0 text-ifood-mediumBlue" size={18} aria-hidden="true" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
 
+        <Reveal variant="card" delayMs={100}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           onFocus={onFirstInteraction}
@@ -162,7 +168,7 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
             </FormField>
 
             {showMoreFields ? (
-              <>
+              <div className="col-span-full grid animate-fade-up grid-cols-1 gap-5 sm:grid-cols-2">
                 <FormField id="requiredTemperature" label="Required storage temperature">
                   <input id="requiredTemperature" className={inputClasses} placeholder="e.g. -18°C" {...register("requiredTemperature")} />
                 </FormField>
@@ -203,7 +209,7 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
                 >
                   <textarea id="handlingRequirements" rows={3} className={inputClasses} {...register("handlingRequirements")} />
                 </FormField>
-              </>
+              </div>
             ) : (
               <div className="sm:col-span-2">
                 <button
@@ -259,6 +265,7 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
 
           <p className="mt-4 font-body text-xs text-ifood-gray">{content.reassuranceCopy}</p>
         </form>
+        </Reveal>
       </Container>
     </section>
   );

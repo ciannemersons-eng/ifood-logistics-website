@@ -16,7 +16,7 @@ export function HeroSection({ content }: { content: HeroContent }) {
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="animate-hero-zoom object-cover motion-reduce:animate-none"
           />
         ) : (
           <div className="h-full w-full bg-ifood-darkBlue" />
@@ -29,17 +29,17 @@ export function HeroSection({ content }: { content: HeroContent }) {
 
       <Container className="pb-24 pt-10 sm:pb-32">
         <div className={content.textAlign === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl"}>
-          <p className="mb-4 font-display text-xs font-semibold uppercase tracking-[0.16em] text-ifood-mediumBlue sm:text-sm">
+          <p className="mb-4 animate-fade-up font-display text-xs font-semibold uppercase tracking-[0.16em] text-ifood-mediumBlue motion-reduce:animate-none sm:text-sm">
             {content.eyebrow}
           </p>
-          <h1 className="font-display text-[clamp(2rem,1.4rem+3vw,4.5rem)] font-bold leading-[1.05]">
+          <h1 className="animate-fade-up font-display text-[clamp(2rem,1.4rem+3vw,4.5rem)] font-bold leading-[1.05] motion-reduce:animate-none [animation-delay:120ms]">
             <span className="block text-ifood-darkBlue">{content.headlineLine1}</span>
             <span className="block text-ifood-mediumBlue">{content.headlineLine2}</span>
           </h1>
-          <p className="mt-6 max-w-lg font-body text-base leading-relaxed text-ifood-gray sm:text-lg">
+          <p className="mt-6 max-w-lg animate-fade-up font-body text-base leading-relaxed text-ifood-gray motion-reduce:animate-none [animation-delay:220ms] sm:text-lg">
             {content.supportingCopy}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex animate-fade-up flex-col gap-3 motion-reduce:animate-none [animation-delay:320ms] sm:flex-row">
             {content.primaryCta.isVisible !== false ? (
               <Button href={content.primaryCta.href} variant="primary">
                 {content.primaryCta.label}

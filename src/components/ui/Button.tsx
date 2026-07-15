@@ -14,7 +14,7 @@ const variantClasses: Record<Variant, string> = {
 };
 
 const baseClasses =
-  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[8px] px-6 py-3 font-display text-sm font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[8px] px-6 py-3 font-display text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft active:translate-y-0 active:shadow-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none";
 
 interface CommonProps {
   variant?: Variant;

@@ -39,9 +39,19 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "hero-zoom": {
+          "0%": { transform: "scale(1.06)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "card-in": {
+          "0%": { opacity: "0", transform: "translateY(10px) scale(0.98)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.6s ease-out both",
+        "hero-zoom": "hero-zoom 12s ease-out both",
+        "card-in": "card-in 0.5s ease-out both",
       },
     },
   },
