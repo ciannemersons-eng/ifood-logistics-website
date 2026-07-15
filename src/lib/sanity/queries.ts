@@ -31,6 +31,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   companyLegalName,
   tradingName,
   "logo": logo${editableImageProjection},
+  "logoWhite": logoWhite${editableImageProjection},
   contactEmail,
   contactPhone,
   address,

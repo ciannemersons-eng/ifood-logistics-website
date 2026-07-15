@@ -18,6 +18,11 @@ export const fallbackSiteSettings: SiteSettings = {
     alt: "iFood Logistics logo",
     isVisible: true,
   },
+  logoWhite: {
+    url: ph(240, 80, "iFood Logistics", "042B65", "FFFFFF"),
+    alt: "iFood Logistics logo (white)",
+    isVisible: true,
+  },
   contactEmail: "support@gemsfoods.ph",
   contactPhone: "+63 32 000 0000",
   address: "P. Remedio Street, Banilad, Mandaue City, Cebu, Philippines",

@@ -46,7 +46,7 @@ export default async function HomePage() {
         <InquirySection content={content.inquiry} />
         <FaqSection content={content.faq} />
       </main>
-      <Footer content={content.footer} />
+      <Footer content={{ ...content.footer, logo: site.logoWhite ?? site.logo }} />
     </>
   );
 }

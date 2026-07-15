@@ -8,6 +8,13 @@ export default defineType({
     defineField({ name: "companyLegalName", title: "Official company legal name", type: "string" }),
     defineField({ name: "tradingName", title: "Trading name", type: "string" }),
     defineField({ name: "logo", title: "Logo", type: "editableImage" }),
+    defineField({
+      name: "logoWhite",
+      title: "Logo (white version for footer)",
+      description:
+        "Used in the footer, which has a dark blue background. Upload a white or light-colored version of the logo here. If left empty, the main logo above is reused.",
+      type: "editableImage",
+    }),
     defineField({ name: "contactEmail", title: "Contact email", type: "string" }),
     defineField({ name: "contactPhone", title: "Contact phone", type: "string" }),
     defineField({ name: "address", title: "Address", type: "text", rows: 2 }),

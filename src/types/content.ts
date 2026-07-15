@@ -131,6 +131,7 @@ export interface SiteSettings {
   companyLegalName: string;
   tradingName: string;
   logo: EditableImage;
+  logoWhite?: EditableImage;
   contactEmail: string;
   contactPhone: string;
   address: string;
