@@ -1,0 +1,8 @@
+{
+  "name": "iFood Logistics",
+  "short_name": "iFood Logistics",
+  "icons": [],
+  "theme_color": "#042B65",
+  "background_color": "#FFFFFF",
+  "display": "standalone"
+}

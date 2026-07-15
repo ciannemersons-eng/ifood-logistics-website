@@ -1,0 +1,48 @@
+{
+  "name": "ifood-logistics-landing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "sanity:dev": "sanity dev --config sanity.config.ts",
+    "sanity:deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "3.9.0",
+    "@react-email/components": "0.0.21",
+    "@sanity/client": "6.21.3",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^3.99.0",
+    "@supabase/supabase-js": "2.45.1",
+    "@types/node": "20.14.15",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.19",
+    "lucide-react": "0.408.0",
+    "next": "14.2.5",
+    "next-sanity": "^9.12.3",
+    "postcss": "8.4.40",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-hook-form": "7.52.2",
+    "resend": "3.5.0",
+    "sanity": "^3.99.0",
+    "styled-components": "^6.4.3",
+    "tailwindcss": "3.4.7",
+    "typescript": "5.5.4",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@testing-library/react": "16.0.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5",
+    "jsdom": "24.1.1",
+    "vitest": "2.0.5"
+  }
+}
