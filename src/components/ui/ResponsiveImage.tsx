@@ -22,7 +22,7 @@ export function ResponsiveImage({
 }) {
   const [errored, setErrored] = useState(false);
 
-  if (!image || image.isVisible === false || errored) {
+  if (!image || !image.url || image.isVisible === false || errored) {
     return (
       <div
         className={cn(

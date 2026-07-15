@@ -84,7 +84,8 @@ Copy `.env.example` to `.env.local` and fill in real values before connecting ea
 | Variable | Used by | Notes |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | SEO metadata, sitemap, robots | Public |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` | Sanity client | Public |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` | Sanity client (Next.js app) | Public |
+| `SANITY_STUDIO_PROJECT_ID` / `SANITY_STUDIO_DATASET` | Sanity Studio CLI (`sanity:dev`/`sanity:deploy`) | Same values as above — Sanity's own dev/build tooling only reads `SANITY_STUDIO_`-prefixed vars, not `NEXT_PUBLIC_` ones |
 | `SANITY_API_READ_TOKEN` | Sanity client | Server-only; only needed for private datasets |
 | `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | Inquiry storage | **Server-only.** Never expose the service-role key to the browser |
 | `RESEND_API_KEY` | Emails | Server-only |

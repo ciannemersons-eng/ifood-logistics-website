@@ -3,7 +3,9 @@ import type { PartnersSectionContent } from "@/types/content";
 import { Container } from "@/components/ui/Container";
 
 export function PartnersSection({ content }: { content: PartnersSectionContent }) {
-  if (!content.isVisible || content.partners.length === 0) return null;
+  const partnersWithLogos = content.partners.filter((partner) => Boolean(partner.logo?.url));
+
+  if (!content.isVisible || partnersWithLogos.length === 0) return null;
 
   return (
     <section id={content.anchorId || "partners"} className="bg-white py-16 sm:py-20">
@@ -20,7 +22,7 @@ export function PartnersSection({ content }: { content: PartnersSectionContent }
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-          {content.partners.map((partner) => (
+          {partnersWithLogos.map((partner) => (
             <div
               key={partner.id}
               className="flex h-20 items-center justify-center rounded-card border border-ifood-gray/10 bg-white p-4 grayscale transition-all duration-200 hover:grayscale-0"

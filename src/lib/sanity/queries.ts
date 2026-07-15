@@ -17,10 +17,12 @@ const editableImageProjection = `{
 const editableIconProjection = `{
   mode,
   libraryKey,
-  "uploadedAsset": mode == "upload" => {
-    "url": uploadedAsset.asset->url,
-    "alt": uploadedAssetAlt
-  }
+  "uploadedAsset": select(
+    mode == "upload" => {
+      "url": uploadedAsset.asset->url,
+      "alt": uploadedAssetAlt
+    }
+  )
 }`;
 
 const ctaProjection = `{ label, href, isVisible }`;

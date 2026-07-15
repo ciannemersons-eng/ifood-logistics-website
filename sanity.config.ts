@@ -1,28 +1,32 @@
-'use client'
+import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+import { visionTool } from "@sanity/vision";
+import { schemaTypes } from "./sanity/schemaTypes";
 
-/**
- * This configuration is used to for the Sanity Studio that’s mounted on the `\src\app\studio\[[...tool]]\page.tsx` route
- */
-
-import {visionTool} from '@sanity/vision'
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-
-// Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import {apiVersion, dataset, projectId} from './src/sanity/env'
-import {schema} from './src/sanity/schemaTypes'
-import {structure} from './src/sanity/structure'
+// Sanity's own dev/build tooling (the standalone `sanity dev` / `sanity deploy`
+// CLI, used by the `sanity:dev` / `sanity:deploy` npm scripts) only inlines
+// environment variables prefixed with `SANITY_STUDIO_` into the Studio
+// bundle — it does not read `NEXT_PUBLIC_*` vars, since those are a Next.js
+// convention inlined by Next's own bundler, not Sanity's Vite config. We
+// fall back to the NEXT_PUBLIC_ versions only for local convenience if
+// someone forgets to set the SANITY_STUDIO_ ones, but the SANITY_STUDIO_
+// variables are the ones that actually make it into the Studio at runtime.
+const projectId =
+  process.env.SANITY_STUDIO_PROJECT_ID ||
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
+  "";
+const dataset =
+  process.env.SANITY_STUDIO_DATASET ||
+  process.env.NEXT_PUBLIC_SANITY_DATASET ||
+  "production";
 
 export default defineConfig({
-  basePath: '/studio',
-  projectId,
-  dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
-  schema,
-  plugins: [
-    structureTool({structure}),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({defaultApiVersion: apiVersion}),
-  ],
-})
+  name: "ifood-logistics",
+  title: "iFood Logistics CMS",
+  projectId: "b5hp46e1",
+  dataset: "production",
+  plugins: [structureTool(), visionTool()],
+  schema: {
+    types: schemaTypes,
+  },
+});
