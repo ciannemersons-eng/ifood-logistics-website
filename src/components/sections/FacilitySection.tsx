@@ -44,25 +44,48 @@ export function FacilitySection({ content }: { content: FacilitySectionContent }
  *
  * Auto-advances on a timer (looping back to the first slide) unless the
  * visitor has requested reduced motion, is hovering/focusing the gallery, has
- * paused it with the play/pause control, or the tab is in the background —
- * satisfying WCAG 2.2.2 (content that moves on its own must be pausable).
+ * paused it with the play/pause control, the gallery has scrolled off screen,
+ * or the tab is in the background — satisfying WCAG 2.2.2 (content that
+ * moves on its own must be pausable).
  */
 function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHoverPaused, setIsHoverPaused] = useState(false);
   const [isTabHidden, setIsTabHidden] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const thumbStripRef = useRef<HTMLDivElement>(null);
   const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // Scrolls a thumbnail into view *within the thumbnail strip only*, using
+  // the strip's own scrollLeft rather than element.scrollIntoView(). That
+  // matters because scrollIntoView walks up every scrollable ancestor
+  // (including the page itself) and can drag the whole window's vertical
+  // scroll position along with it if the thumbnail isn't currently visible
+  // — which is exactly what happened here: the auto-advance timer kept
+  // running even while a visitor was reading a section above Facility
+  // Highlights, and the resulting scrollIntoView call yanked the whole page
+  // down. Scoping the scroll to the strip's own scrollLeft makes that
+  // impossible, regardless of what else is or isn't visible on the page.
+  const scrollThumbIntoView = useCallback((index: number) => {
+    const strip = thumbStripRef.current;
+    const button = thumbRefs.current[index];
+    if (!strip || !button) return;
+
+    const targetLeft =
+      button.offsetLeft - strip.clientWidth / 2 + button.clientWidth / 2;
+    strip.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+  }, []);
 
   const goTo = useCallback(
     (index: number, focusThumb = false) => {
       const clamped = Math.max(0, Math.min(index, highlights.length - 1));
       setActiveIndex(clamped);
-      const thumb = thumbRefs.current[clamped];
-      thumb?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      if (focusThumb) thumb?.focus();
+      scrollThumbIntoView(clamped);
+      if (focusThumb) thumbRefs.current[clamped]?.focus();
     },
-    [highlights.length],
+    [highlights.length, scrollThumbIntoView],
   );
 
   const onThumbKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -100,23 +123,37 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
+  // Only auto-advance while the gallery is actually on screen. This is a
+  // plain visibility gate (a single boolean), not the per-card layout
+  // measurement that caused the earlier staggering bug, so it carries none
+  // of that feedback-loop risk.
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => setIsInView(Boolean(entry?.isIntersecting)), {
+      threshold: 0.3,
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   // The auto-advance timer itself. Depending on `activeIndex` means the
   // interval is torn down and restarted every time the slide changes (by
   // this timer or by manual navigation), so the countdown to the next slide
   // always starts fresh rather than continuing a stale countdown.
   useEffect(() => {
-    if (!isPlaying || isHoverPaused || isTabHidden || highlights.length <= 1) return;
+    if (!isPlaying || isHoverPaused || isTabHidden || !isInView || highlights.length <= 1) return;
 
     const timer = setInterval(() => {
       setActiveIndex((current) => {
         const next = (current + 1) % highlights.length;
-        thumbRefs.current[next]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        scrollThumbIntoView(next);
         return next;
       });
     }, AUTOPLAY_INTERVAL_MS);
 
     return () => clearInterval(timer);
-  }, [isPlaying, isHoverPaused, isTabHidden, highlights.length, activeIndex]);
+  }, [isPlaying, isHoverPaused, isTabHidden, isInView, highlights.length, activeIndex, scrollThumbIntoView]);
 
   if (highlights.length === 0) return null;
 
@@ -126,6 +163,7 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
 
   return (
     <div
+      ref={rootRef}
       className="mt-12"
       onMouseEnter={() => setIsHoverPaused(true)}
       onMouseLeave={() => setIsHoverPaused(false)}
@@ -193,6 +231,7 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
       </div>
 
       <div
+        ref={thumbStripRef}
         role="tablist"
         aria-label="Facility highlight thumbnails"
         className="mt-4 flex gap-3 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
