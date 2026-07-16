@@ -61,7 +61,11 @@ export function AboutSection({ content }: { content: AboutSectionContent }) {
               Sanity: this is a fixed marketing asset the company controls in
               code, not editable per-client content.
             */}
-            <div className="absolute -bottom-6 -right-6 w-[68%] max-w-[340px] sm:-bottom-8 sm:-right-10 sm:w-[62%] sm:max-w-[400px]">
+            <Reveal
+              variant="slide-right"
+              delayMs={200}
+              className="absolute -bottom-6 -right-6 w-[68%] max-w-[340px] sm:-bottom-8 sm:-right-10 sm:w-[62%] sm:max-w-[400px]"
+            >
               <Image
                 src="/images/ifood-fleet-truck.png"
                 alt="iFood Logistics branded delivery truck"
@@ -70,7 +74,7 @@ export function AboutSection({ content }: { content: AboutSectionContent }) {
                 className="h-auto w-full object-contain drop-shadow-xl"
                 sizes="(min-width: 640px) 400px, 55vw"
               />
-            </div>
+            </Reveal>
           </div>
         </Reveal>
       </Container>

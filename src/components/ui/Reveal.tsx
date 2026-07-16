@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils/cn";
  *
  * `delayMs` lets grids of cards stagger their reveal slightly (e.g. 0, 80,
  * 160...) for a more polished feel without becoming a "busy" effect.
- * `variant="card"` adds a touch of scale for card-shaped content; the
- * default "fade" variant is a plain upward fade for headings/text blocks.
+ * `variant="card"` adds a touch of scale for card-shaped content; `variant=
+ * "slide-right"` slides in from the right (e.g. the fleet truck graphic);
+ * the default "fade" variant is a plain upward fade for headings/text blocks.
  */
 export function Reveal({
   children,
@@ -23,7 +24,7 @@ export function Reveal({
   children: ReactNode;
   className?: string;
   delayMs?: number;
-  variant?: "fade" | "card";
+  variant?: "fade" | "card" | "slide-right";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -46,12 +47,15 @@ export function Reveal({
     return () => observer.disconnect();
   }, []);
 
+  const variantAnimationClass =
+    variant === "card" ? "animate-card-in" : variant === "slide-right" ? "animate-slide-in-right" : "animate-fade-up";
+
   return (
     <div
       ref={ref}
       className={cn(
         "opacity-0",
-        isVisible && (variant === "card" ? "animate-card-in" : "animate-fade-up"),
+        isVisible && variantAnimationClass,
         "motion-reduce:animate-none motion-reduce:opacity-100",
         className,
       )}

@@ -47,11 +47,16 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(10px) scale(0.98)" },
           "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translateX(220px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.6s ease-out both",
         "hero-zoom": "hero-zoom 12s ease-out both",
         "card-in": "card-in 0.5s ease-out both",
+        "slide-in-right": "slide-in-right 0.9s cubic-bezier(0.16, 1, 0.3, 1) both",
       },
     },
   },
