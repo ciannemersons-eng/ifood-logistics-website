@@ -13,9 +13,9 @@ export function Footer({ content }: { content: FooterContent }) {
             <Image
               src={content.logo.url}
               alt={content.logo.alt}
-              width={160}
-              height={48}
-              className="h-10 w-auto object-contain"
+              width={320}
+              height={96}
+              className="h-20 w-auto object-contain sm:h-24"
             />
           ) : (
             <span className="font-display text-lg font-bold">iFood Logistics</span>
