@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import type { FacilityHighlight, FacilitySectionContent } from "@/types/content";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -10,6 +10,8 @@ import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { EditableIcon } from "@/components/ui/EditableIcon";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils/cn";
+
+const AUTOPLAY_INTERVAL_MS = 5500;
 
 export function FacilitySection({ content }: { content: FacilitySectionContent }) {
   if (!content.isVisible) return null;
@@ -39,9 +41,17 @@ export function FacilitySection({ content }: { content: FacilitySectionContent }
  * previous scroll-tracked carousel, the active item here is driven purely by
  * click/keyboard state, not by measuring layout — so there's no possibility
  * of a resize-triggers-detection-triggers-resize feedback loop.
+ *
+ * Auto-advances on a timer (looping back to the first slide) unless the
+ * visitor has requested reduced motion, is hovering/focusing the gallery, has
+ * paused it with the play/pause control, or the tab is in the background —
+ * satisfying WCAG 2.2.2 (content that moves on its own must be pausable).
  */
 function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
+  const [isTabHidden, setIsTabHidden] = useState(false);
   const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const goTo = useCallback(
@@ -71,6 +81,43 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
     }
   };
 
+  // Respect prefers-reduced-motion: don't start the auto-advance at all.
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mql.matches) setIsPlaying(false);
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsPlaying(false);
+    };
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
+  // Pause while the browser tab isn't visible, so nobody comes back to find
+  // the gallery has jumped ahead several slides.
+  useEffect(() => {
+    const onVisibility = () => setIsTabHidden(document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  // The auto-advance timer itself. Depending on `activeIndex` means the
+  // interval is torn down and restarted every time the slide changes (by
+  // this timer or by manual navigation), so the countdown to the next slide
+  // always starts fresh rather than continuing a stale countdown.
+  useEffect(() => {
+    if (!isPlaying || isHoverPaused || isTabHidden || highlights.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setActiveIndex((current) => {
+        const next = (current + 1) % highlights.length;
+        thumbRefs.current[next]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        return next;
+      });
+    }, AUTOPLAY_INTERVAL_MS);
+
+    return () => clearInterval(timer);
+  }, [isPlaying, isHoverPaused, isTabHidden, highlights.length, activeIndex]);
+
   if (highlights.length === 0) return null;
 
   const active = highlights[activeIndex] ?? highlights[0];
@@ -78,7 +125,15 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
   const stagePanelId = "facility-stage-panel";
 
   return (
-    <div className="mt-12">
+    <div
+      className="mt-12"
+      onMouseEnter={() => setIsHoverPaused(true)}
+      onMouseLeave={() => setIsHoverPaused(false)}
+      onFocus={() => setIsHoverPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsHoverPaused(false);
+      }}
+    >
       <div
         id={stagePanelId}
         role="tabpanel"
@@ -159,21 +214,40 @@ function FacilityGallery({ highlights }: { highlights: FacilityHighlight[] }) {
               onClick={() => goTo(index)}
               onKeyDown={(event) => onThumbKeyDown(event, index)}
               className={cn(
-                "relative h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-all duration-200 sm:h-[70px] sm:w-[104px]",
+                "group relative h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition-all duration-200 sm:h-[70px] sm:w-[104px]",
                 isActive
-                  ? "border-ifood-darkBlue opacity-100 ring-2 ring-ifood-lightBlue ring-offset-2 ring-offset-[#F5FBFF]"
-                  : "border-transparent opacity-60 hover:opacity-90",
+                  ? "border-ifood-darkBlue ring-2 ring-ifood-lightBlue ring-offset-2 ring-offset-[#F5FBFF]"
+                  : "border-transparent",
               )}
             >
               <ResponsiveImage image={highlight.image} className="h-full w-full" imgClassName="object-cover" sizes="120px" />
+              {!isActive ? (
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-ifood-royalBlue/45 mix-blend-multiply transition-opacity duration-200 group-hover:opacity-40"
+                />
+              ) : null}
             </button>
           );
         })}
       </div>
 
-      <p className="mt-3 font-body text-sm text-ifood-gray" aria-hidden="true">
-        {activeIndex + 1} / {highlights.length}
-      </p>
+      <div className="mt-3 flex items-center justify-center gap-3">
+        <p className="font-body text-sm text-ifood-gray" aria-hidden="true">
+          {activeIndex + 1} / {highlights.length}
+        </p>
+        {highlights.length > 1 ? (
+          <button
+            type="button"
+            onClick={() => setIsPlaying((current) => !current)}
+            aria-label={isPlaying ? "Pause automatic slideshow" : "Play automatic slideshow"}
+            aria-pressed={!isPlaying}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-ifood-gray/15 bg-white text-ifood-darkBlue shadow-soft transition-colors hover:bg-ifood-lightBlue/20"
+          >
+            {isPlaying ? <Pause size={13} aria-hidden="true" /> : <Play size={13} aria-hidden="true" />}
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 }
