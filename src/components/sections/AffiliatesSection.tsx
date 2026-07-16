@@ -18,7 +18,7 @@ export function AffiliatesSection({ content }: { content: AffiliatesSectionConte
               <p className="font-body text-sm leading-relaxed text-ifood-gray sm:text-base">{content.copy}</p>
               <ul className="mt-5 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
                 {content.affiliates.map((affiliate) => (
-                  <li key={affiliate.id} className="font-body text-sm text-ifood-black">
+                  <li key={affiliate.id} className="font-display text-sm font-semibold text-ifood-darkBlue sm:text-base">
                     {affiliate.name}
                   </li>
                 ))}
