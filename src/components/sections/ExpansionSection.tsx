@@ -28,7 +28,7 @@ export function ExpansionSection({ content }: { content: ExpansionSectionContent
               aria-hidden="true"
               width={663}
               height={948}
-              className="pointer-events-none absolute mr-12 -right-4 -top-6 h-[380px] w-auto object-contain sm:-right-2 sm:h-[460px] lg:-right-6"
+              className="pointer-events-none absolute -right-4 -top-6 h-[380px] w-auto object-contain sm:-right-2 sm:h-[460px] lg:-right-6"
             />
 
             <div className="relative max-w-2xl">
@@ -55,4 +55,5 @@ export function ExpansionSection({ content }: { content: ExpansionSectionContent
         </Reveal>
       </Container>
     </section>
-  
+  );
+}
