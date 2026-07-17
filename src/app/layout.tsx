@@ -42,7 +42,8 @@ export async function generateMetadata(): Promise<Metadata> {
       images: site.seo.socialImage?.url ? [site.seo.socialImage.url] : undefined,
     },
     icons: {
-      icon: "/favicon.ico",
+      icon: "/images/ifood-just-logo.png",
+      apple: "/images/ifood-just-logo.png",
     },
     manifest: "/site.webmanifest",
   };
