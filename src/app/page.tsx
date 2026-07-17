@@ -17,11 +17,13 @@ import { InquirySection } from "@/components/sections/InquirySection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { StructuredData } from "@/components/StructuredData";
 
-// In production this caches the rendered page for 5 minutes so we're not
-// hitting Sanity on every request. In development we always fetch fresh so
-// content edits in Sanity Studio show up on refresh without restarting the
-// dev server.
-export const revalidate = process.env.NODE_ENV === "production" ? 300 : 0;
+// Caches the rendered page for 5 minutes so we're not hitting Sanity on
+// every request. Next's route-segment config must be a static literal (no
+// conditional expressions), but that's fine here: `next dev` already
+// bypasses this caching and re-renders on every request, so content edits
+// in Sanity Studio still show up on refresh without restarting the dev
+// server — the branch on NODE_ENV was never actually necessary.
+export const revalidate = 300;
 
 export default async function HomePage() {
   const [site, content] = await Promise.all([getSiteSettings(), getLandingPageContent()]);

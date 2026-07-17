@@ -12,8 +12,8 @@ const poppins = Poppins({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.ifoodlogistics.ph";
 
-// See src/app/page.tsx for why this is disabled outside production.
-export const revalidate = process.env.NODE_ENV === "production" ? 300 : 0;
+// See src/app/page.tsx for why this is a plain static literal.
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteSettings();

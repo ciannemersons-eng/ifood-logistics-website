@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import type { InventorySectionContent } from "@/types/content";
 import { Container } from "@/components/ui/Container";
@@ -9,8 +10,20 @@ export function InventorySection({ content }: { content: InventorySectionContent
   if (!content.isVisible) return null;
 
   return (
-    <section id={content.anchorId || "inventory"} className="bg-ifood-darkBlue py-16 text-white sm:py-20 lg:py-28">
-      <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <section
+      id={content.anchorId || "inventory"}
+      className="relative overflow-hidden bg-ifood-darkBlue py-16 text-white sm:py-20 lg:py-28"
+    >
+      <Image
+        src="/images/inv-visibility-bg.jpg"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="100vw"
+        className="pointer-events-none absolute inset-0 object-cover mix-blend-multiply"
+      />
+
+      <Container className="relative z-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal variant="card" className="order-2 lg:order-1">
           <ResponsiveImage
             image={content.image}
