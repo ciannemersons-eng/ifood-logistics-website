@@ -399,6 +399,8 @@ export const fallbackContent: LandingPageContent = {
     anchorId: "industries",
     eyebrow: "INDUSTRIES WE SUPPORT",
     heading: "Supporting Businesses Across the Food Supply Chain",
+    supportingCopy:
+      "From importation and manufacturing to retail and foodservice, iFood Logistics provides dependable cold-chain infrastructure that helps preserve product quality at every stage.",
     industries: [
       { id: "importers", name: "Food importers and distributors", icon: { mode: "library", libraryKey: "container" }, isVisible: true, sortOrder: 1 },
       { id: "manufacturers", name: "Food manufacturers", icon: { mode: "library", libraryKey: "factory" }, isVisible: true, sortOrder: 2 },

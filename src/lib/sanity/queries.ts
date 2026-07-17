@@ -94,7 +94,7 @@ export const landingPageQuery = `*[_type == "landingPage"][0]{
     } | order(sortOrder asc)
   },
   industries{
-    isVisible, anchorId, eyebrow, heading,
+    isVisible, anchorId, eyebrow, heading, supportingCopy,
     "industries": industries[]->{
       "id": _id, name, "icon": icon${editableIconProjection},
       "image": image${editableImageProjection}, isVisible, sortOrder
