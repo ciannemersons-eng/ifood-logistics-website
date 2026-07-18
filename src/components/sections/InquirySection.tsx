@@ -38,11 +38,23 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<InquiryFormValues>({
     resolver: zodResolver(inquirySchema),
     defaultValues: { consentPrivacy: false, turnstileToken: "" },
   });
+
+  // TurnstileWidget reports its token via a plain callback, not a
+  // react-hook-form-registered field, so it has to be synced into the form's
+  // own values explicitly. Without this, react-hook-form's internal copy of
+  // turnstileToken never leaves its default "" and Zod's min(1) check on it
+  // fails on every submit attempt — silently, since no error is rendered for
+  // this field — which blocks handleSubmit from ever calling onSubmit at all.
+  const handleTurnstileToken = (token: string) => {
+    setTurnstileToken(token);
+    setValue("turnstileToken", token, { shouldValidate: true });
+  };
 
   if (!content.isVisible) return null;
 
@@ -246,7 +258,12 @@ export function InquirySection({ content }: { content: InquirySectionContent }) 
           ) : null}
 
           <div className="mt-5">
-            <TurnstileWidget onToken={setTurnstileToken} />
+            <TurnstileWidget onToken={handleTurnstileToken} />
+            {errors.turnstileToken ? (
+              <p role="alert" className="mt-1 font-body text-xs font-medium text-red-600">
+                {errors.turnstileToken.message}
+              </p>
+            ) : null}
           </div>
 
           {submitState.status === "error" ? (
