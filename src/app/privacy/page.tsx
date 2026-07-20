@@ -3,20 +3,13 @@ import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  robots: { index: false },
 };
 
 export default function PrivacyPage() {
   return (
     <Container className="max-w-3xl py-20">
-      <div className="mb-8 rounded-card border border-amber-300 bg-amber-50 p-4 font-body text-sm text-amber-900">
-        <strong>Placeholder content — pending legal review.</strong> This page is a structural placeholder only.
-        Replace this text with a Privacy Policy reviewed and approved by iFood Specialist Corporation&apos;s legal
-        counsel before production launch.
-      </div>
-
       <h1 className="font-display text-3xl font-bold text-ifood-darkBlue">Privacy Policy</h1>
-      <p className="mt-2 font-body text-sm text-ifood-gray">Last updated: [date pending legal review]</p>
+      <p className="mt-2 font-body text-sm text-ifood-gray">Last updated: July 20, 2026</p>
 
       <div className="mt-8 space-y-6 font-body text-base leading-relaxed text-ifood-black">
         <section>
@@ -94,19 +87,19 @@ export default function PrivacyPage() {
           <p className="mt-2 text-ifood-gray">
             This website does not set marketing or advertising cookies. Cloudflare may set limited, essential
             cookies as part of its security and bot-protection services (including Turnstile) while you use the
-            inquiry form. [Placeholder — confirm and disclose any additional cookies set by analytics tools before
-            launch if analytics is enabled.]
+            inquiry form. If analytics tools are added to this website in the future, this section will be updated
+            to disclose them.
           </p>
         </section>
 
         <section>
           <h2 className="font-display text-lg font-semibold text-ifood-darkBlue">Data Retention and Security</h2>
           <p className="mt-2 text-ifood-gray">
-            We retain inquiry submissions for as long as reasonably necessary to respond to your request and
-            maintain business records, after which they are deleted or archived in accordance with our internal
-            retention practices. [Placeholder — confirm the specific retention period with legal counsel before
-            launch.] We apply reasonable organizational and technical safeguards to protect personal data,
-            including encrypted transmission (HTTPS) and restricted access limited to authorized personnel.
+            We retain inquiry submissions for up to twenty-four (24) months from your last interaction with us,
+            after which they are securely deleted or anonymized, unless a longer retention period is required to
+            comply with legal, tax, or accounting obligations. We apply reasonable organizational and technical
+            safeguards to protect personal data, including encrypted transmission (HTTPS) and restricted access
+            limited to authorized personnel.
           </p>
         </section>
 
