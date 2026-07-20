@@ -36,7 +36,25 @@ function onlyPublishableAffiliates(affiliates: Affiliate[] | undefined, fallback
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   const cms = await sanityFetch<Partial<SiteSettings>>(siteSettingsQuery);
-  return mergeSection(fallbackSiteSettings, cms);
+  const merged = mergeSection(fallbackSiteSettings, cms);
+
+  // mergeSection only merges top-level keys. seo/logo/logoWhite/headerCta
+  // are themselves nested objects, so a CMS response that includes one of
+  // them at all (even with individual sub-fields still null/unset) would
+  // otherwise wholesale-replace the fallback's whole object instead of
+  // falling back field-by-field — e.g. a null seo.title silently blanking
+  // the homepage's <title> even though the fallback title is fine and the
+  // CMS's own title field was actually filled in.
+  merged.seo = mergeSection(fallbackSiteSettings.seo, cms?.seo);
+  merged.logo = mergeSection(fallbackSiteSettings.logo, cms?.logo);
+  merged.headerCta = mergeSection(fallbackSiteSettings.headerCta, cms?.headerCta);
+  if (fallbackSiteSettings.logoWhite) {
+    merged.logoWhite = mergeSection(fallbackSiteSettings.logoWhite, cms?.logoWhite);
+  } else if (cms?.logoWhite) {
+    merged.logoWhite = cms.logoWhite;
+  }
+
+  return merged;
 }
 
 export async function getLandingPageContent(): Promise<LandingPageContent> {
