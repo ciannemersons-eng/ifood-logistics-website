@@ -546,7 +546,7 @@ export const fallbackContent: LandingPageContent = {
     contact: {
       address: "P. Remedio Street, Banilad, Mandaue City, Cebu, Philippines",
       phone: "+63 32 000 0000",
-      email: "support@gemsfoods.ph",
+      email: "inquiry@ifoodlogistics.com",
     },
     quickLinks: [
       { label: "Home", href: "#home", isVisible: true },
