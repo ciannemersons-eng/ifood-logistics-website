@@ -18,10 +18,15 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteSettings();
 
+  // TEMPORARY DEBUG: shows the raw value/type of site.seo.title directly in
+  // the tab so we can see exactly what production is resolving it to,
+  // instead of guessing further. Remove once the empty-title bug is found.
+  const debugTitle = `DEBUG[${JSON.stringify(site.seo.title)}|${typeof site.seo.title}]`;
+
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: site.seo.title,
+      default: debugTitle,
       template: `%s | ${site.tradingName}`,
     },
     description: site.seo.description,
