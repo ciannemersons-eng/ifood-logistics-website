@@ -10,7 +10,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.ifoodlogistics.ph";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.ifoodlogistics.com";
 
 // See src/app/page.tsx for why this is a plain static literal.
 export const revalidate = 300;

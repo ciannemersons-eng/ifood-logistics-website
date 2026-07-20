@@ -1,6 +1,6 @@
 import type { SiteSettings, FaqSectionContent } from "@/types/content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.ifoodlogistics.ph";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.ifoodlogistics.com";
 
 export function StructuredData({
   site,
@@ -32,6 +32,20 @@ export function StructuredData({
       addressRegion: "Cebu",
       addressCountry: "PH",
     },
+    // From the pin at https://maps.app.goo.gl/CqAhxHS3J1VfPo5z6
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 10.3474838,
+      longitude: 123.9223534,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "08:00",
+        closes: "17:00",
+      },
+    ],
     telephone: site.contactPhone,
     email: site.contactEmail,
     url: siteUrl,

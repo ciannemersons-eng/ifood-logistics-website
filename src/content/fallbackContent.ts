@@ -24,7 +24,7 @@ export const fallbackSiteSettings: SiteSettings = {
     isVisible: true,
   },
   contactEmail: "inquiry@ifoodlogistics.com",
-  contactPhone: "+63 32 000 0000",
+  contactPhone: "0917 632 8157",
   address: "P. Remedio Street, Banilad, Mandaue City, Cebu, Philippines",
   inquiryRecipientEmail: "support@gemsfoods.ph",
   headerCta: { label: "Request a Quote", href: "#inquiry", isVisible: true },
