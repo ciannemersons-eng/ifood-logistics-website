@@ -46,6 +46,9 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: "/images/ifood-just-logo.png",
     },
     manifest: "/site.webmanifest",
+    verification: {
+      google: "V_ysaS6ZEfU60jhQ4HehO1hSxQZhFosjpDbtO_-so4g",
+    },
   };
 }
 
