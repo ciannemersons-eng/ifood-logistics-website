@@ -21,14 +21,26 @@ export function ExpansionSection({ content }: { content: ExpansionSectionContent
               map didn't render at all), whereas a plain pre-colored PNG
               always renders. It's taller than the card and not clipped, so
               it bleeds past the bottom edge onto the page background.
+
+              Two pre-colored variants swap by breakpoint instead of one
+              image changing color via CSS, for the same reliability reason:
+              white below sm (mobile), navy from sm up (tablet/desktop).
             */}
+            <Image
+              src="/images/white-ph.png"
+              alt=""
+              aria-hidden="true"
+              width={663}
+              height={948}
+              className="pointer-events-none absolute -right-4 -top-6 h-[380px] w-auto object-contain sm:hidden"
+            />
             <Image
               src="/images/navy-ph.png"
               alt=""
               aria-hidden="true"
               width={663}
               height={948}
-              className="pointer-events-none absolute -right-4 -top-6 h-[380px] w-auto object-contain sm:-right-2 sm:h-[460px] lg:-right-6"
+              className="pointer-events-none absolute -right-2 -top-6 hidden h-[460px] w-auto object-contain sm:block lg:-right-6"
             />
 
             <div className="relative max-w-2xl">

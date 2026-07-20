@@ -31,7 +31,7 @@ export const fallbackSiteSettings: SiteSettings = {
   footerText:
     "Reliable cold storage, inventory management, and dispatch support for businesses across Cebu and the Philippines.",
   seo: {
-    title: "iFood Logistics | Cold Storage and Warehousing in Cebu",
+    title: "iFood Logistics",
     description:
       "Reliable cold storage in Mandaue, Cebu with 10,000-pallet capacity, SAP inventory management, equipped loading docks, backup power, and 24/7 security.",
     keywords: [
