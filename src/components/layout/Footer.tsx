@@ -50,11 +50,18 @@ export function Footer({ content }: { content: FooterContent }) {
               <MapPin size={18} className="mt-0.5 shrink-0 text-ifood-lightBlue" aria-hidden="true" />
               <span>{content.contact.address}</span>
             </li>
-            <li className="flex items-center gap-2">
-              <Phone size={18} className="shrink-0 text-ifood-lightBlue" aria-hidden="true" />
-              <a href={`tel:${content.contact.phone.replace(/\s+/g, "")}`} className="hover:text-white">
-                {content.contact.phone}
-              </a>
+            <li className="flex items-start gap-2">
+              <Phone size={18} className="mt-0.5 shrink-0 text-ifood-lightBlue" aria-hidden="true" />
+              <span className="flex flex-col">
+                {content.contact.phone.split(",").map((number) => {
+                  const trimmed = number.trim();
+                  return (
+                    <a key={trimmed} href={`tel:${trimmed.replace(/\s+/g, "")}`} className="hover:text-white">
+                      {trimmed}
+                    </a>
+                  );
+                })}
+              </span>
             </li>
             <li className="flex items-center gap-2">
               <Mail size={18} className="shrink-0 text-ifood-lightBlue" aria-hidden="true" />
