@@ -48,7 +48,18 @@ export function Footer({ content }: { content: FooterContent }) {
           <ul className="mt-4 flex flex-col gap-3 font-body text-sm text-white/85">
             <li className="flex items-start gap-2">
               <MapPin size={18} className="mt-0.5 shrink-0 text-ifood-lightBlue" aria-hidden="true" />
-              <span>{content.contact.address}</span>
+              {content.contact.mapUrl ? (
+                <a
+                  href={content.contact.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                >
+                  {content.contact.address}
+                </a>
+              ) : (
+                <span>{content.contact.address}</span>
+              )}
             </li>
             <li className="flex items-start gap-2">
               <Phone size={18} className="mt-0.5 shrink-0 text-ifood-lightBlue" aria-hidden="true" />

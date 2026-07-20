@@ -547,6 +547,7 @@ export const fallbackContent: LandingPageContent = {
       address: "P. Remedio Street, Banilad, Mandaue City, Cebu, Philippines",
       phone: "0917 632 8157, 0999 229 6214",
       email: "inquiry@ifoodlogistics.com",
+      mapUrl: "https://maps.app.goo.gl/CqAhxHS3J1VfPo5z6",
     },
     quickLinks: [
       { label: "Home", href: "#home", isVisible: true },
