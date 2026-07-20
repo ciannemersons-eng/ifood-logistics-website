@@ -12,7 +12,12 @@ function mergeSection<T>(fallback: T, fromCms: Partial<T> | null | undefined): T
   if (!fromCms) return fallback;
   const merged: Record<string, unknown> = { ...(fallback as Record<string, unknown>) };
   for (const [key, value] of Object.entries(fromCms)) {
-    if (value !== null && value !== undefined) {
+    // Guard against blank strings, not just null/undefined: an empty text
+    // field in Sanity (unset, or a stale CDN read from before it was filled
+    // in) would otherwise silently blank out working fallback copy — e.g. an
+    // empty seo.title wiping out the homepage's <title> entirely, which is
+    // exactly what happened here.
+    if (value !== null && value !== undefined && value !== "") {
       merged[key] = value;
     }
   }
