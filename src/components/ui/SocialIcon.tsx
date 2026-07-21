@@ -28,11 +28,14 @@ export function SocialIcon({
   label,
   size = 18,
   className,
+  showLabel = true,
 }: {
   href: string;
   label: string;
   size?: number;
   className?: string;
+  /** Show the platform name as visible text next to the icon. Defaults to true. */
+  showLabel?: boolean;
 }) {
   const Icon = getSocialIcon(href);
   return (
@@ -40,10 +43,11 @@ export function SocialIcon({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={label}
+      aria-label={showLabel ? undefined : label}
       className={className}
     >
-      <Icon size={size} aria-hidden="true" />
+      <Icon size={size} className="shrink-0" aria-hidden="true" />
+      {showLabel ? <span>{label}</span> : null}
     </a>
   );
 }

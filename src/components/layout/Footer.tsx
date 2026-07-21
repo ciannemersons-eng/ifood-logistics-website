@@ -25,16 +25,17 @@ export function Footer({ content, socialLinks }: { content: FooterContent; socia
           <p className="mt-3 font-body text-sm text-ifood-lightBlue">{content.operatedByLine}</p>
           <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-white/80">{content.statement}</p>
           {visibleSocialLinks.length > 0 ? (
-            <div className="mt-5 flex items-center gap-4">
+            <ul className="mt-5 flex flex-col gap-2">
               {visibleSocialLinks.map((link) => (
-                <SocialIcon
-                  key={link.href}
-                  href={link.href}
-                  label={link.label}
-                  className="text-ifood-lightBlue transition-colors hover:text-white"
-                />
+                <li key={link.href}>
+                  <SocialIcon
+                    href={link.href}
+                    label={link.label}
+                    className="flex items-center gap-2 font-body text-sm text-white/85 hover:text-white"
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           ) : null}
         </div>
 
