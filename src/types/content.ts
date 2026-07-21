@@ -139,6 +139,7 @@ export interface SiteSettings {
   headerCta: Cta;
   footerText: string;
   seo: SeoSettings;
+  socialLinks?: Cta[];
 }
 
 export interface HeroContent extends SectionSettings {

@@ -28,6 +28,7 @@ export const fallbackSiteSettings: SiteSettings = {
   address: "P. Remedio Street, Banilad, Mandaue City, Cebu, Philippines",
   inquiryRecipientEmail: "support@gemsfoods.ph",
   headerCta: { label: "Request a Quote", href: "#inquiry", isVisible: true },
+  socialLinks: [],
   footerText:
     "Reliable cold storage, inventory management, and dispatch support for businesses across Cebu and the Philippines.",
   seo: {

@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
-import type { FooterContent } from "@/types/content";
+import type { Cta, FooterContent } from "@/types/content";
 import { Container } from "@/components/ui/Container";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
-export function Footer({ content }: { content: FooterContent }) {
+export function Footer({ content, socialLinks }: { content: FooterContent; socialLinks?: Cta[] }) {
+  const visibleSocialLinks = (socialLinks ?? []).filter((link) => link.isVisible !== false && link.href);
   return (
     <footer className="border-t border-ifood-lightBlue/40 bg-ifood-darkBlue text-white">
       <Container className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
@@ -22,6 +24,18 @@ export function Footer({ content }: { content: FooterContent }) {
           )}
           <p className="mt-3 font-body text-sm text-ifood-lightBlue">{content.operatedByLine}</p>
           <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-white/80">{content.statement}</p>
+          {visibleSocialLinks.length > 0 ? (
+            <div className="mt-5 flex items-center gap-4">
+              {visibleSocialLinks.map((link) => (
+                <SocialIcon
+                  key={link.href}
+                  href={link.href}
+                  label={link.label}
+                  className="text-ifood-lightBlue transition-colors hover:text-white"
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div>

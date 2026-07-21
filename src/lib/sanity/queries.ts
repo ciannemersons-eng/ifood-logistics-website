@@ -38,6 +38,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   inquiryRecipientEmail,
   "headerCta": headerCta${ctaProjection},
   footerText,
+  "socialLinks": socialLinks[]${ctaProjection},
   "seo": seo{
     title,
     description,
